@@ -1,2 +1,7 @@
 .idea/
 *.iml
+
+.terraform
+test/stages/.terraform
+test/stages/module
+
