@@ -5,3 +5,5 @@
 test/stages/.terraform
 test/stages/module
 
+test/stages/.terraform.lock.hcl
+.terraform.lock.hcl
