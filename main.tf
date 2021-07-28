@@ -9,6 +9,7 @@ locals {
   storage_class     = var.storage_class != "" ? var.storage_class : local.default_storage_class
 
   operatorgroup_name = "ibm-apiconnect"
+  apic_namespace = "ibm-common-services"
   subscription_name = "ibm-apiconnect"
   subscription_namespace = "openshift-operators"
 
@@ -25,10 +26,10 @@ locals {
       kind = "OperatorGroup"
       metadata = {
         name = local.operatorgroup_name
-        namespace = local.subscription_namespace
+        namespace = local.apic_namespace
       }
       spec = {
-        targetNamespaces = [local.subscription_namespace]
+        targetNamespaces = [local.apic_namespace]
       }
     }
   }
