@@ -27,7 +27,7 @@ locals {
         namespace = local.subscription_namespace
       }
       spec = {
-        channel = "v1.2"
+        channel = "v2.1-eus"
         installPlanApproval = "Automatic"
         name = "ibm-apiconnect"
         source = var.catalog_name
@@ -162,7 +162,8 @@ locals {
     local.switch-server,
     local.designer
   ]
-  instance_config = concat(local.base_instances, var.dashboard ? [local.dashboard] : [])
+  instance_config = []; 
+  #concat(local.base_instances, var.dashboard ? [local.dashboard] : [])
 }
 
 resource null_resource create_dirs {
