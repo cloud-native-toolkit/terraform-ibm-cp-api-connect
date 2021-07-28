@@ -36,7 +36,7 @@ locals {
   subscription = {
     file     = "${local.gitops_dir}/subscription.yaml"
     instance = {
-      apiVersion = "operators.coreos.com/v1alpha1"
+      apiVersion = "operators.coreos.com/v1"
       kind = "Subscription"
       metadata = {
         name = local.subscription_name
