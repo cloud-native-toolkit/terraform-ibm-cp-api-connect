@@ -1,7 +1,7 @@
 locals {
   tmp_dir           = "${path.cwd}/.tmp"
   gitops_global     = var.gitops_dir != "" ? var.gitops_dir : "${path.cwd}/gitops"
-  gitops_dir        = "${local.gitops_global}/app-connect"
+  gitops_dir        = "${local.gitops_global}/api-connect"
   instance_dir      = "${local.gitops_dir}/instances"
 
   storage_class_file = "${local.tmp_dir}/default_storage_class.out"
@@ -21,7 +21,7 @@ locals {
   operatorgroup = {
     file     = "${local.gitops_dir}/operatorgroup.yaml"
     instance = {
-      apiVersion = "operators.coreos.com/v1alpha1"
+      apiVersion = "operators.coreos.com/v1alv1pha1"
       kind = "OperatorGroup"
       metadata = {
         name = local.operatorgroup_name
@@ -52,132 +52,132 @@ locals {
     }
   }
 
-  integration-server = {
-    file = "${local.instance_dir}/integration-server.yaml"
-    instance = {
-      apiVersion = "apiconnect.ibm.com/v1beta1"
-      kind = "IntegrationServer"
-      metadata = {
-        name = "is-01-toolkit"
-      }
-      spec = {
-        license = local.license
-        pod = {
-          containers = {
-            runtime = {
-              resources = {
-                limits = {
-                  cpu = "300m"
-                  memory = "300Mi"
-                }
-                requests = {
-                  cpu = "300m"
-                  memory = "300Mi"
-                }
-              }
-            }
-          }
-        }
-        adminServerSecure = true
-        router = {
-          timeout = "120s"
-        }
-        useCommonServices = true
-        designerFlowsOperationMode = "disabled"
-        service = {
-          endpointType = "http"
-        }
-        version = "11.0.0"
-        replicas = 1
-      }
-    }
-  }
-  switch-server = {
-    file = "${local.instance_dir}/switch-server.yaml"
-    instance = {
-      apiVersion = "apiconnect.ibm.com/v1beta1"
-      kind = "SwitchServer"
-      metadata = {
-        name = "ss-01-quickstart"
-      }
-      spec = {
-        license = local.license
-        useCommonServices = true
-        version = "11.0.0"
-      }
-    }
-  }
-  designer = {
-    file = "${local.instance_dir}/designer.yaml"
-    instance = {
-      apiVersion = "apiconnect.ibm.com/v1beta1"
-      kind = "DesignerAuthoring"
-      metadata = {
-        name = "des-01-quickstart"
-      }
-      spec = {
-        couchdb = {
-          replicas = 1
-          storage = {
-            class = local.storage_class
-            size = "10Gi"
-            type = "persistent-claim"
-          }
-        }
-        designerFlowsOperationMode = "local"
-        license = local.license
-        replicas = 1
-        useCommonServices = true
-        version = "11.0.0"
-      }
-    }
-  }
-  dashboard = {
-    file = "${local.instance_dir}/dashboard.yaml"
-    instance = {
-      apiVersion = "apiconnect.ibm.com/v1beta1"
-      kind = "Dashboard"
-      metadata = {
-        name = "db-01-quickstart"
-      }
-      spec = {
-        license = local.license
-        pod = {
-          containers = {
-            content-server = {
-              resources = {
-                limits = {
-                  cpu = "250m"
-                }
-              }
-            }
-            control-ui = {
-              resources = {
-                limits = {
-                  cpu = "250m"
-                  memory = "250Mi"
-                }
-              }
-            }
-          }
-        }
-        replicas = 1
-        storage = {
-          class = local.storage_class
-          size = "5Gi"
-          type = "persistent-claim"
-        }
-        useCommonServices = true
-        version = "11.0.0"
-      }
-    }
-  }
+#   integration-server = {
+#     file = "${local.instance_dir}/integration-server.yaml"
+#     instance = {
+#       apiVersion = "apiconnect.ibm.com/v1beta1"
+#       kind = "IntegrationServer"
+#       metadata = {
+#         name = "is-01-toolkit"
+#       }
+#       spec = {
+#         license = local.license
+#         pod = {
+#           containers = {
+#             runtime = {
+#               resources = {
+#                 limits = {
+#                   cpu = "300m"
+#                   memory = "300Mi"
+#                 }
+#                 requests = {
+#                   cpu = "300m"
+#                   memory = "300Mi"
+#                 }
+#               }
+#             }
+#           }
+#         }
+#         adminServerSecure = true
+#         router = {
+#           timeout = "120s"
+#         }
+#         useCommonServices = true
+#         designerFlowsOperationMode = "disabled"
+#         service = {
+#           endpointType = "http"
+#         }
+#         version = "11.0.0"
+#         replicas = 1
+#       }
+#     }
+#   }
+#   switch-server = {
+#     file = "${local.instance_dir}/switch-server.yaml"
+#     instance = {
+#       apiVersion = "apiconnect.ibm.com/v1beta1"
+#       kind = "SwitchServer"
+#       metadata = {
+#         name = "ss-01-quickstart"
+#       }
+#       spec = {
+#         license = local.license
+#         useCommonServices = true
+#         version = "11.0.0"
+#       }
+#     }
+#   }
+#   designer = {
+#     file = "${local.instance_dir}/designer.yaml"
+#     instance = {
+#       apiVersion = "apiconnect.ibm.com/v1beta1"
+#       kind = "DesignerAuthoring"
+#       metadata = {
+#         name = "des-01-quickstart"
+#       }
+#       spec = {
+#         couchdb = {
+#           replicas = 1
+#           storage = {
+#             class = local.storage_class
+#             size = "10Gi"
+#             type = "persistent-claim"
+#           }
+#         }
+#         designerFlowsOperationMode = "local"
+#         license = local.license
+#         replicas = 1
+#         useCommonServices = true
+#         version = "11.0.0"
+#       }
+#     }
+#   }
+#   dashboard = {
+#     file = "${local.instance_dir}/dashboard.yaml"
+#     instance = {
+#       apiVersion = "apiconnect.ibm.com/v1beta1"
+#       kind = "Dashboard"
+#       metadata = {
+#         name = "db-01-quickstart"
+#       }
+#       spec = {
+#         license = local.license
+#         pod = {
+#           containers = {
+#             content-server = {
+#               resources = {
+#                 limits = {
+#                   cpu = "250m"
+#                 }
+#               }
+#             }
+#             control-ui = {
+#               resources = {
+#                 limits = {
+#                   cpu = "250m"
+#                   memory = "250Mi"
+#                 }
+#               }
+#             }
+#           }
+#         }
+#         replicas = 1
+#         storage = {
+#           class = local.storage_class
+#           size = "5Gi"
+#           type = "persistent-claim"
+#         }
+#         useCommonServices = true
+#         version = "11.0.0"
+#       }
+#     }
+#   }
 
-  base_instances = [
-    local.integration-server,
-    local.switch-server,
-    local.designer
-  ]
+#   base_instances = [
+#     local.integration-server,
+#     local.switch-server,
+#     local.designer
+#   ]
   instance_config = []
   #concat(local.base_instances, var.dashboard ? [local.dashboard] : [])
 }
