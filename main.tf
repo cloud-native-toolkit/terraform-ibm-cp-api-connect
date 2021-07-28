@@ -8,6 +8,7 @@ locals {
   default_storage_class = data.local_file.default_storage_class.content
   storage_class     = var.storage_class != "" ? var.storage_class : local.default_storage_class
 
+  operatorgroup_name = "ibm-apiconnect"
   subscription_name = "ibm-apiconnect"
   subscription_namespace = "openshift-operators"
 
@@ -15,6 +16,21 @@ locals {
     accept = true
     license = "L-APEH-BSVCHU"
     use = "CloudPakForIntegrationNonProduction"
+  }
+
+  operatorgroup = {
+    file     = "${local.gitops_dir}/subscription.yaml"
+    instance = {
+      apiVersion = "operators.coreos.com/v1alpha1"
+      kind = "OperatorGroup"
+      metadata = {
+        name = local.operatorgroup_name
+        namespace = local.subscription_namespace
+      }
+      spec = {
+        targetNamespaces = [local.subscription_namespace]
+      }
+    }
   }
 
   subscription = {
@@ -198,6 +214,40 @@ data local_file default_storage_class {
   filename = local.storage_class_file
 }
 
+resource local_file operatorgroup_yaml {
+  depends_on = [null_resource.create_dirs]
+
+  filename = local.operatorgroup.file
+
+  content = yamlencode(local.operatorgroup.instance)
+}
+resource null_resource create_operatorgroup {
+  depends_on = [local_file.operatorgroup_yaml]
+
+  triggers = {
+    KUBECONFIG = var.cluster_config_file
+    namespace = local.subscription_namespace
+    name = local.operatorgroup_name
+    file = local_file.subscription_yaml.filename
+  }
+
+  provisioner "local-exec" {
+    command = "kubectl apply -f ${self.triggers.file}"
+
+    environment = {
+      KUBECONFIG = self.triggers.KUBECONFIG
+    }
+  }
+
+  provisioner "local-exec" {
+    when = destroy
+    command = "kubectl delete -f ${self.triggers.file}"
+
+    environment = {
+      KUBECONFIG = self.triggers.KUBECONFIG
+    }
+  }
+}
 resource local_file subscription_yaml {
   depends_on = [null_resource.create_dirs]
 
@@ -207,7 +257,7 @@ resource local_file subscription_yaml {
 }
 
 resource null_resource create_subscription {
-  depends_on = [local_file.subscription_yaml]
+  depends_on = [local_file.subscription_yaml, null_resource.create_operatorgroup]
 
   triggers = {
     KUBECONFIG = var.cluster_config_file
