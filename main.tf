@@ -21,7 +21,7 @@ locals {
   operatorgroup = {
     file     = "${local.gitops_dir}/operatorgroup.yaml"
     instance = {
-      apiVersion = "operators.coreos.com/v1alv1pha1"
+      apiVersion = "operators.coreos.com/v1"
       kind = "OperatorGroup"
       metadata = {
         name = local.operatorgroup_name
@@ -36,7 +36,7 @@ locals {
   subscription = {
     file     = "${local.gitops_dir}/subscription.yaml"
     instance = {
-      apiVersion = "operators.coreos.com/v1"
+      apiVersion = "operators.coreos.com/v1alpha1"
       kind = "Subscription"
       metadata = {
         name = local.subscription_name
