@@ -43,7 +43,7 @@ locals {
         namespace = local.subscription_namespace
       }
       spec = {
-        channel = "v2.1-eus"
+        channel = "v2.3"
         installPlanApproval = "Automatic"
         name = "ibm-apiconnect"
         source = var.catalog_name
