@@ -19,7 +19,7 @@ locals {
   }
 
   operatorgroup = {
-    file     = "${local.gitops_dir}/subscription.yaml"
+    file     = "${local.gitops_dir}/operatorgroup.yaml"
     instance = {
       apiVersion = "operators.coreos.com/v1alpha1"
       kind = "OperatorGroup"
@@ -228,7 +228,7 @@ resource null_resource create_operatorgroup {
     KUBECONFIG = var.cluster_config_file
     namespace = local.subscription_namespace
     name = local.operatorgroup_name
-    file = local_file.subscription_yaml.filename
+    file = local_file.operatorgroup_yaml.filename
   }
 
   provisioner "local-exec" {
