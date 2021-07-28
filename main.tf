@@ -162,7 +162,7 @@ locals {
     local.switch-server,
     local.designer
   ]
-  instance_config = []; 
+  instance_config = []
   #concat(local.base_instances, var.dashboard ? [local.dashboard] : [])
 }
 
