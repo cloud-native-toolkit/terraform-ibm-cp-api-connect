@@ -36,10 +36,11 @@ locals {
         sourceType = "grpc"
         image = "docker.io/ibmcom/ibm-operator-catalog"
         updateStrategy = {
-          registryPoll = {}
+          registryPoll = {
             interval = "45m"
           }
         }
+      }
     }
   }
 
@@ -59,10 +60,11 @@ locals {
         sourceType = "grpc"
         image = "docker.io/ibmcom/ibm-common-service-catalog:latest"
         updateStrategy = {
-          registryPoll = {}
+          registryPoll = {
             interval = "45m"
           }
         }
+      }
     }
   }
 
