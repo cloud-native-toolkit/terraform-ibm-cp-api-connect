@@ -11,7 +11,7 @@ spec:
   license:
     accept: true
     license: "L-APEH-BSVCHU"
-    use: "CloudPakForIntegrationNonProduction"
+    use: "nonproduction"
   databaseVolumeClaimTemplate:
     storageClassName: block-storage
   certManagerIssuer:
