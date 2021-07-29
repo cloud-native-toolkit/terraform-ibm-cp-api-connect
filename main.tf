@@ -432,7 +432,7 @@ resource local_file instance_yaml {
 
 resource null_resource create_instances {
   depends_on = [local_file.instance_yaml, null_resource.create_subscription]
-  count = length(local.instance_config.*.file)
+  count = var.create_instances ? 1:0
 
   triggers = {
     KUBECONFIG = var.cluster_config_file
