@@ -9,9 +9,9 @@ metadata:
   namespace: ibm-api-connect-instance
 spec:
   license:
-    accept: false
-    license: ''
-    use: nonproduction
+    accept: true
+    license: "L-APEH-BSVCHU"
+    use: "CloudPakForIntegrationNonProduction"
   databaseVolumeClaimTemplate:
     storageClassName: block-storage
   certManagerIssuer:

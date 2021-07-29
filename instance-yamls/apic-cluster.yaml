@@ -9,8 +9,9 @@ metadata:
   namespace: ibm-api-connect-instance
 spec:
   license:
-    accept: false
-    use: nonproduction
+    accept: true
+    license: "L-APEH-BSVCHU"
+    use: "CloudPakForIntegrationNonProduction"
   analytics:
     storage:
       enabled: true

@@ -10,7 +10,10 @@ metadata:
 spec:
   license:
     accept: false
-    license: ''
+    license: 
+      accept: true
+      license: "L-APEH-BSVCHU"
+      use: "CloudPakForIntegrationNonProduction"
     use: nonproduction
   certManagerIssuer:
     name: selfsigning-issuer

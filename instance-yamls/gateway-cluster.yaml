@@ -9,9 +9,9 @@ metadata:
   namespace: ibm-api-connect-instance
 spec:
   license:
-    accept: false
-    license: ''
-    use: nonproduction
+    accept: true
+    license: "L-APEH-BSVCHU"
+    use: "CloudPakForIntegrationNonProduction"
   apicGatewayServiceTLS:
     secretName: gateway-service
   profile: n1xc4.m8
