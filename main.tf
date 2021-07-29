@@ -21,68 +21,68 @@ locals {
     use = "CloudPakForIntegrationNonProduction"
   }
 
-  ioc_catsrc = {
-    file     = "${local.gitops_dir}/ioc-catsrc.yaml"
-    instance = {
-      apiVersion = "operators.coreos.com/v1alpha1"
-      kind = "CatalogSource"
-      metadata = {
-        name = local.ioc_name
-        namespace = local.subscription_namespace
-      }
-      spec = {
-        displayName = "IBM Operator Catalog" 
-        publisher = "IBM"
-        sourceType = "grpc"
-        image = "docker.io/ibmcom/ibm-operator-catalog"
-        updateStrategy = {
-          registryPoll = {
-            interval = "45m"
-          }
-        }
-      }
-    }
-  }
+  # ioc_catsrc = {
+  #   file     = "${local.gitops_dir}/ioc-catsrc.yaml"
+  #   instance = {
+  #     apiVersion = "operators.coreos.com/v1alpha1"
+  #     kind = "CatalogSource"
+  #     metadata = {
+  #       name = local.ioc_name
+  #       namespace = local.subscription_namespace
+  #     }
+  #     spec = {
+  #       displayName = "IBM Operator Catalog" 
+  #       publisher = "IBM"
+  #       sourceType = "grpc"
+  #       image = "docker.io/ibmcom/ibm-operator-catalog"
+  #       updateStrategy = {
+  #         registryPoll = {
+  #           interval = "45m"
+  #         }
+  #       }
+  #     }
+  #   }
+  # }
 
 
-  cs_catsrc = {
-    file     = "${local.gitops_dir}/ioc-catsrc.yaml"
-    instance = {
-      apiVersion = "operators.coreos.com/v1alpha1"
-      kind = "CatalogSource"
-      metadata = {
-        name = local.cs_name
-        namespace = local.subscription_namespace
-      }
-      spec = {
-        displayName = "IBMCS Operators" 
-        publisher = "IBM"
-        sourceType = "grpc"
-        image = "docker.io/ibmcom/ibm-common-service-catalog:latest"
-        updateStrategy = {
-          registryPoll = {
-            interval = "45m"
-          }
-        }
-      }
-    }
-  }
+  # cs_catsrc = {
+  #   file     = "${local.gitops_dir}/ioc-catsrc.yaml"
+  #   instance = {
+  #     apiVersion = "operators.coreos.com/v1alpha1"
+  #     kind = "CatalogSource"
+  #     metadata = {
+  #       name = local.cs_name
+  #       namespace = local.subscription_namespace
+  #     }
+  #     spec = {
+  #       displayName = "IBMCS Operators" 
+  #       publisher = "IBM"
+  #       sourceType = "grpc"
+  #       image = "docker.io/ibmcom/ibm-common-service-catalog:latest"
+  #       updateStrategy = {
+  #         registryPoll = {
+  #           interval = "45m"
+  #         }
+  #       }
+  #     }
+  #   }
+  # }
 
 
-  operatorgroup = {
-    file     = "${local.gitops_dir}/operatorgroup.yaml"
-    instance = {
-      apiVersion = "operators.coreos.com/v1"
-      kind = "OperatorGroup"
-      metadata = {
-        name = local.operatorgroup_name
-        namespace = local.apic_namespace
-      }
-      spec = {
-        targetNamespaces = [local.apic_namespace]
-      }
-    }
-  }
+  # operatorgroup = {
+  #   file     = "${local.gitops_dir}/operatorgroup.yaml"
+  #   instance = {
+  #     apiVersion = "operators.coreos.com/v1"
+  #     kind = "OperatorGroup"
+  #     metadata = {
+  #       name = local.operatorgroup_name
+  #       namespace = local.apic_namespace
+  #     }
+  #     spec = {
+  #       targetNamespaces = [local.apic_namespace]
+  #     }
+  #   }
+  # }
 
   subscription = {
     file     = "${local.gitops_dir}/subscription.yaml"
@@ -265,116 +265,116 @@ data local_file default_storage_class {
   filename = local.storage_class_file
 }
 
-resource local_file ioc_catsrc_yaml {
-  depends_on = [null_resource.create_dirs]
+# resource local_file ioc_catsrc_yaml {
+#   depends_on = [null_resource.create_dirs]
 
-  filename = local.ioc_catsrc.file
+#   filename = local.ioc_catsrc.file
 
-  content = yamlencode(local.ioc_catsrc.instance)
-}
-
-
-resource null_resource create_ioc_catsrc {
-  depends_on = [local_file.ioc_catsrc_yaml]
-
-  triggers = {
-    KUBECONFIG = var.cluster_config_file
-    namespace = local.subscription_namespace
-    name = local.ioc_name
-    file = local_file.ioc_catsrc_yaml.filename
-  }
-
-  provisioner "local-exec" {
-    command = "kubectl apply -f ${self.triggers.file}"
-
-    environment = {
-      KUBECONFIG = self.triggers.KUBECONFIG
-    }
-  }
-
-  provisioner "local-exec" {
-    when = destroy
-    command = "kubectl delete -f ${self.triggers.file}"
-
-    environment = {
-      KUBECONFIG = self.triggers.KUBECONFIG
-    }
-  }
-}
-
-resource local_file cs_catsrc_yaml {
-  depends_on = [null_resource.create_dirs]
-
-  filename = local.cs_catsrc.file
-
-  content = yamlencode(local.cs_catsrc.instance)
-}
+#   content = yamlencode(local.ioc_catsrc.instance)
+# }
 
 
-resource null_resource create_cs_catsrc {
-  depends_on = [local_file.ioc_catsrc_yaml]
+# resource null_resource create_ioc_catsrc {
+#   depends_on = [local_file.ioc_catsrc_yaml]
 
-  triggers = {
-    KUBECONFIG = var.cluster_config_file
-    namespace = local.subscription_namespace
-    name = local.cs_name
-    file = local_file.cs_catsrc_yaml.filename
-  }
+#   triggers = {
+#     KUBECONFIG = var.cluster_config_file
+#     namespace = local.subscription_namespace
+#     name = local.ioc_name
+#     file = local_file.ioc_catsrc_yaml.filename
+#   }
 
-  provisioner "local-exec" {
-    command = "kubectl apply -f ${self.triggers.file}"
+#   provisioner "local-exec" {
+#     command = "kubectl apply -f ${self.triggers.file}"
 
-    environment = {
-      KUBECONFIG = self.triggers.KUBECONFIG
-    }
-  }
+#     environment = {
+#       KUBECONFIG = self.triggers.KUBECONFIG
+#     }
+#   }
 
-  provisioner "local-exec" {
-    when = destroy
-    command = "kubectl delete -f ${self.triggers.file}"
+#   provisioner "local-exec" {
+#     when = destroy
+#     command = "kubectl delete -f ${self.triggers.file}"
 
-    environment = {
-      KUBECONFIG = self.triggers.KUBECONFIG
-    }
-  }
-}
+#     environment = {
+#       KUBECONFIG = self.triggers.KUBECONFIG
+#     }
+#   }
+# }
+
+# resource local_file cs_catsrc_yaml {
+#   depends_on = [null_resource.create_dirs]
+
+#   filename = local.cs_catsrc.file
+
+#   content = yamlencode(local.cs_catsrc.instance)
+# }
+
+
+# resource null_resource create_cs_catsrc {
+#   depends_on = [local_file.ioc_catsrc_yaml]
+
+#   triggers = {
+#     KUBECONFIG = var.cluster_config_file
+#     namespace = local.subscription_namespace
+#     name = local.cs_name
+#     file = local_file.cs_catsrc_yaml.filename
+#   }
+
+#   provisioner "local-exec" {
+#     command = "kubectl apply -f ${self.triggers.file}"
+
+#     environment = {
+#       KUBECONFIG = self.triggers.KUBECONFIG
+#     }
+#   }
+
+#   provisioner "local-exec" {
+#     when = destroy
+#     command = "kubectl delete -f ${self.triggers.file}"
+
+#     environment = {
+#       KUBECONFIG = self.triggers.KUBECONFIG
+#     }
+#   }
+# }
 
 
 
-resource local_file operatorgroup_yaml {
-  depends_on = [null_resource.create_dirs]
+# resource local_file operatorgroup_yaml {
+#   depends_on = [null_resource.create_dirs]
 
-  filename = local.operatorgroup.file
+#   filename = local.operatorgroup.file
 
-  content = yamlencode(local.operatorgroup.instance)
-}
-resource null_resource create_operatorgroup {
-  depends_on = [local_file.operatorgroup_yaml, null_resource.create_ioc_catsrc, null_resource.create_cs_catsrc]
+#   content = yamlencode(local.operatorgroup.instance)
+# }
+# resource null_resource create_operatorgroup {
+#   depends_on = [local_file.operatorgroup_yaml]
 
-  triggers = {
-    KUBECONFIG = var.cluster_config_file
-    namespace = local.subscription_namespace
-    name = local.operatorgroup_name
-    file = local_file.operatorgroup_yaml.filename
-  }
+#   triggers = {
+#     KUBECONFIG = var.cluster_config_file
+#     namespace = local.subscription_namespace
+#     name = local.operatorgroup_name
+#     file = local_file.operatorgroup_yaml.filename
+#   }
 
-  provisioner "local-exec" {
-    command = "kubectl apply -f ${self.triggers.file}"
+#   provisioner "local-exec" {
+#     command = "kubectl apply -f ${self.triggers.file}"
 
-    environment = {
-      KUBECONFIG = self.triggers.KUBECONFIG
-    }
-  }
+#     environment = {
+#       KUBECONFIG = self.triggers.KUBECONFIG
+#     }
+#   }
 
-  provisioner "local-exec" {
-    when = destroy
-    command = "kubectl delete -f ${self.triggers.file}"
+#   provisioner "local-exec" {
+#     when = destroy
+#     command = "kubectl delete -f ${self.triggers.file}"
 
-    environment = {
-      KUBECONFIG = self.triggers.KUBECONFIG
-    }
-  }
-}
+#     environment = {
+#       KUBECONFIG = self.triggers.KUBECONFIG
+#     }
+#   }
+# }
 resource local_file subscription_yaml {
   depends_on = [null_resource.create_dirs]
 
@@ -384,7 +384,7 @@ resource local_file subscription_yaml {
 }
 
 resource null_resource create_subscription {
-  depends_on = [local_file.subscription_yaml, null_resource.create_operatorgroup]
+  depends_on = [local_file.subscription_yaml]
 
   triggers = {
     KUBECONFIG = var.cluster_config_file
