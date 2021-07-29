@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CRD_LIST="analyticsbackups.analytics.apiconnect.ibm.com,analyticsclusters.analytics.apiconnect.ibm.com,analyticsrestores.analytics.apiconnect.ibm.com,datapowerservices.datapower.ibm.com,gatewayclusters.gateway.apiconnect.ibm.com,managementbackups.management.apiconnect.ibm.com,managementclusters.management.apiconnect.ibm.com,managementrestores.management.apiconnect.ibm.com,natsclusters.nats.io,natsserviceroles.nats.io,natsstreamingclusters.streaming.nats.io,portalbackups.portal.apiconnect.ibm.com,portalclusters.portal.apiconnect.ibm.com,portalrestores.portal.apiconnect.ibm.com"
+CRD_LIST="analyticsbackups.analytics.apiconnect.ibm.com,analyticsclusters.analytics.apiconnect.ibm.com,analyticsrestores.analytics.apiconnect.ibm.com,datapowerservices.datapower.ibm.com,gatewayclusters.gateway.apiconnect.ibm.com,managementbackups.management.apiconnect.ibm.com,managementclusters.management.apiconnect.ibm.com,managementrestores.management.apiconnect.ibm.com,natsstreamingclusters.streaming.nats.io,portalbackups.portal.apiconnect.ibm.com,portalclusters.portal.apiconnect.ibm.com,portalrestores.portal.apiconnect.ibm.com"
 
 IFS=',' read -ra CRDS <<< "$CRD_LIST"
 for crd in "${CRDS[@]}"; do

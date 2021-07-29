@@ -1,4 +1,4 @@
-name: cp-app-connect
+name: cp-api-connect
 type: terraform
 description: Module to install App Connect in the cluster
 tags:
@@ -48,7 +48,7 @@ versions:
       moduleRef:
         id: namespace
         output: name
-        discriminator: app-connect
+        discriminator: api-connect
     - name: gitops_dir
       scope: global
     - name: storage_class
