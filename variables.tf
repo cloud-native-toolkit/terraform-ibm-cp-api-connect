@@ -44,3 +44,9 @@ variable "dashboard" {
   description = "Flag to install the dashboard"
   default     = true
 }
+
+variable "create_instances" {
+  type        = bool
+  description = "Create default APIConnect cluster instances"
+  default     = true
+}

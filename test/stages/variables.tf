@@ -54,9 +54,3 @@ variable "entitlement_key" {
   description = "The entitlement key used to access the CP4I images in the container registry. Visit https://myibm.ibm.com/products-services/containerlibrary to get the key"
   default     = ""
 }
-
-variable "create_instances" {
-  type        = bool
-  description = "Create default APIConnect cluster instances"
-  default     = true
-}
