@@ -441,7 +441,7 @@ resource null_resource create_instances {
   }
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/wait-for-crds.sh && oc apply -n ${self.triggers.namespace} -f ${self.triggers.dir}"
+    command = "${path.module}/scripts/wait-for-crds.sh && oc new-project ${self.triggers.namespace} && oc apply -n ${self.triggers.namespace} -f ${self.triggers.dir}"
 
     environment = {
       KUBECONFIG = self.triggers.KUBECONFIG
@@ -450,7 +450,7 @@ resource null_resource create_instances {
 
   provisioner "local-exec" {
     when = destroy
-    command = "kubectl delete -n ${self.triggers.namespace} -f ${self.triggers.dir} --ignore-not-found=true"
+    command = "kubectl delete -n ${self.triggers.namespace} -f ${self.triggers.dir} --ignore-not-found=true && oc delete project ${self.triggers.namespace}"
 
     environment = {
       KUBECONFIG = self.triggers.KUBECONFIG
