@@ -8,13 +8,10 @@ metadata:
     app.kubernetes.io/name: analytics
   namespace: ibm-api-connect-instance
 spec:
-  license:
-    accept: false
-    license: 
-      accept: true
-      license: "L-APEH-BSVCHU"
-      use: "nonproduction"
-    use: nonproduction
+  license: 
+    accept: true
+    license: "L-APEH-BSVCHU"
+    use: "nonproduction"
   certManagerIssuer:
     name: selfsigning-issuer
     kind: Issuer
