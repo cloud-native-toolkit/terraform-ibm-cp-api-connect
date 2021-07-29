@@ -1,0 +1,57 @@
+apiVersion: management.apiconnect.ibm.com/v1beta1
+kind: ManagementCluster
+metadata:
+  name: management
+  labels:
+    app.kubernetes.io/instance: management
+    app.kubernetes.io/managed-by: ibm-apiconnect
+    app.kubernetes.io/name: management
+  namespace: ibm-api-connect-instance
+spec:
+  license:
+    accept: false
+    license: ''
+    use: nonproduction
+  databaseVolumeClaimTemplate:
+    storageClassName: block-storage
+  certManagerIssuer:
+    name: selfsigning-issuer
+    kind: Issuer
+  gateway:
+    client:
+      secretName: gateway-client-client
+  analytics:
+    client:
+      secretName: analytics-client-client
+    ingestion:
+      secretName: analytics-ingestion-client
+  apiManagerEndpoint:
+    annotations:
+      certmanager.k8s.io/issuer: ingress-issuer
+    hosts:
+      - name: apim.apps.apiconnect.example.com
+        secretName: management-apim-endpoint-secret
+  profile: n1xc4.m16
+  portal:
+    admin:
+      secretName: portal-admin-client
+  cloudManagerEndpoint:
+    annotations:
+      certmanager.k8s.io/issuer: ingress-issuer
+    hosts:
+      - name: cm.apps.apiconnect.example.com
+        secretName: management-cm-endpoint-secret
+  microServiceSecurity: certManager
+  version: 10.0.3.0
+  consumerAPIEndpoint:
+    annotations:
+      certmanager.k8s.io/issuer: ingress-issuer
+    hosts:
+      - name: consumer.apps.apiconnect.example.com
+        secretName: management-consumer-endpoint-secret
+  platformAPIEndpoint:
+    annotations:
+      certmanager.k8s.io/issuer: ingress-issuer
+    hosts:
+      - name: api.apps.apiconnect.example.com
+        secretName: management-api-endpoint-secret

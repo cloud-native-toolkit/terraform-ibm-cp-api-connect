@@ -1,0 +1,46 @@
+apiVersion: gateway.apiconnect.ibm.com/v1beta1
+kind: GatewayCluster
+metadata:
+  name: gateway
+  labels:
+    app.kubernetes.io/instance: gateway
+    app.kubernetes.io/managed-by: ibm-apiconnect
+    app.kubernetes.io/name: gateway
+  namespace: ibm-api-connect-instance
+spec:
+  license:
+    accept: false
+    license: ''
+    use: nonproduction
+  apicGatewayServiceTLS:
+    secretName: gateway-service
+  profile: n1xc4.m8
+  apicGatewayPeeringTLS:
+    secretName: gateway-peering
+  version: 10.0.3.0
+  syslogConfig:
+    enabled: false
+    remoteHost: gateway.example.com
+    remotePort: 200
+    secretName: mySecretName
+  tokenManagementService:
+    enabled: true
+    storage:
+      storageClassName: block-storage
+      volumeSize: 30Gi
+  gatewayEndpoint:
+    annotations:
+      certmanager.k8s.io/issuer: ingress-issuer
+    hosts:
+      - name: gw.apps.apiconnect.example.com
+        secretName: gateway-endpoint-secret
+  apicGatewayServiceV5CompatibilityMode: false
+  adminUser:
+    secretName: admin-secret
+  datapowerLogLevel: 4
+  gatewayManagerEndpoint:
+    annotations:
+      certmanager.k8s.io/issuer: ingress-issuer
+    hosts:
+      - name: gwmanager.apps.apiconnect.example.com
+        secretName: gateway-manager-endpoint-secret

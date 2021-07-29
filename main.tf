@@ -2,7 +2,7 @@ locals {
   tmp_dir           = "${path.cwd}/.tmp"
   gitops_global     = var.gitops_dir != "" ? var.gitops_dir : "${path.cwd}/gitops"
   gitops_dir        = "${local.gitops_global}/api-connect"
-  instance_dir      = "${local.gitops_dir}/instances"
+  instance_dir      = "${path.module}/instance-yamls"
 
   storage_class_file = "${local.tmp_dir}/default_storage_class.out"
   default_storage_class = data.local_file.default_storage_class.content
@@ -14,6 +14,7 @@ locals {
   subscription_namespace = "openshift-operators"
   ioc_name = "ibm-operator-catalog"
   cs_name = "opencloud-operators"
+  instance_namespace = "ibm-api-connect-instance"
 
   license = {
     accept = true
@@ -102,6 +103,15 @@ locals {
       }
     }
   }
+
+
+
+
+
+
+
+
+
 
 #   integration-server = {
 #     file = "${local.instance_dir}/integration-server.yaml"
@@ -426,12 +436,12 @@ resource null_resource create_instances {
 
   triggers = {
     KUBECONFIG = var.cluster_config_file
-    namespace = var.namespace
+    namespace = local.instance_namespace
     dir = local.instance_dir
   }
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/wait-for-crds.sh && oc apply -n ${self.triggers.namespace} -f ${local_file.instance_yaml[count.index].filename}"
+    command = "${path.module}/scripts/wait-for-crds.sh && oc apply -n ${self.triggers.namespace} -f ${self.triggers.dir}"
 
     environment = {
       KUBECONFIG = self.triggers.KUBECONFIG

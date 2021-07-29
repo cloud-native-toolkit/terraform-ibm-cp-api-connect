@@ -1,0 +1,55 @@
+apiVersion: analytics.apiconnect.ibm.com/v1beta1
+kind: AnalyticsCluster
+metadata:
+  name: analytics
+  labels:
+    app.kubernetes.io/instance: analytics
+    app.kubernetes.io/managed-by: ibm-apiconnect
+    app.kubernetes.io/name: analytics
+  namespace: ibm-api-connect-instance
+spec:
+  license:
+    accept: false
+    license: ''
+    use: nonproduction
+  certManagerIssuer:
+    name: selfsigning-issuer
+    kind: Issuer
+  ingestion:
+    enabled: true
+    clientSubjectDN: 'CN=analytics-ingestion-client,O=cert-manager'
+    clientAuthEnabled: true
+    configReloadAutomatic: true
+    endpoint:
+      annotations:
+        certmanager.k8s.io/issuer: ingress-issuer
+      hosts:
+        - name: ai.apps.apiconnect.example.com
+          secretName: analytics-ai-endpoint-secret
+  cronjobs:
+    enabled: true
+  profile: n1xc2.m16
+  client:
+    clientAuthEnabled: true
+    clientSubjectDN: 'CN=analytics-client-client,O=cert-manager'
+    enabled: true
+    endpoint:
+      annotations:
+        certmanager.k8s.io/issuer: ingress-issuer
+      hosts:
+        - name: ac.apps.apiconnect.example.com
+          secretName: analytics-endpoint-secret
+  microServiceSecurity: certManager
+  version: 10.0.3.0
+  storage:
+    clientAuthEnabled: true
+    data:
+      volumeClaimTemplate:
+        storageClassName: block-storage
+        volumeSize: 200Gi
+    enabled: true
+    master:
+      volumeClaimTemplate:
+        storageClassName: block-storage
+        volumeSize: 10Gi
+    type: unique
