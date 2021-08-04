@@ -10,7 +10,7 @@ metadata:
 spec:
   license:
     accept: true
-    license: "L-APEH-BSVCHU"
+    license: "L-RJON-BZEP9N	"
     use: "nonproduction"
   databaseVolumeClaimTemplate:
     storageClassName: block-storage
