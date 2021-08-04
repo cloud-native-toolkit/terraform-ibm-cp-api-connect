@@ -13,21 +13,21 @@ spec:
     license: "L-RJON-C2YLGB"
     use: "nonproduction"
   databaseVolumeClaimTemplate:
-    storageClassName: block-storage
+    storageClassName: ibmc-vpc-block-10iops-tier
     volumeSize: 300Gi
   certManagerIssuer:
     name: selfsigning-issuer
     kind: Issuer
   webVolumeClaimTemplate:
-    storageClassName: block-storage
+    storageClassName: ibmc-vpc-block-10iops-tier
     volumeSize: 200Gi
   profile: n1xc2.m8
   adminVolumeClaimTemplate:
-    storageClassName: block-storage
+    storageClassName: ibmc-vpc-block-10iops-tier
     volumeSize: 20Gi
   microServiceSecurity: certManager
   databaseLogsVolumeClaimTemplate:
-    storageClassName: block-storage
+    storageClassName: ibmc-vpc-block-10iops-tier
     volumeSize: 12Gi
   portalUIEndpoint:
     annotations:
@@ -43,6 +43,6 @@ spec:
       - name: ptladmin1.apps.apiconnect.example.com
         secretName: portal-admin-endpoint-secret
   backupVolumeClaimTemplate:
-    storageClassName: block-storage
+    storageClassName: ibmc-vpc-block-10iops-tier
     volumeSize: 300Gi
   adminClientSubjectDN: 'CN=portal-admin-client,O=cert-manager'

@@ -45,11 +45,11 @@ spec:
     clientAuthEnabled: true
     data:
       volumeClaimTemplate:
-        storageClassName: block-storage
+        storageClassName: ibmc-vpc-block-10iops-tier
         volumeSize: 200Gi
     enabled: true
     master:
       volumeClaimTemplate:
-        storageClassName: block-storage
+        storageClassName: ibmc-vpc-block-10iops-tier
         volumeSize: 10Gi
     type: unique

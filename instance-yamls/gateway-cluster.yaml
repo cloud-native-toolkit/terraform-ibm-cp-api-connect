@@ -26,7 +26,7 @@ spec:
   tokenManagementService:
     enabled: true
     storage:
-      storageClassName: block-storage
+      storageClassName: ibmc-vpc-block-10iops-tier
       volumeSize: 30Gi
   gatewayEndpoint:
     annotations:

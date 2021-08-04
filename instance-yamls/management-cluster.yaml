@@ -13,7 +13,7 @@ spec:
     license: "L-RJON-C2YLGB"
     use: "nonproduction"
   databaseVolumeClaimTemplate:
-    storageClassName: block-storage
+    storageClassName: ibmc-vpc-block-10iops-tier
   certManagerIssuer:
     name: selfsigning-issuer
     kind: Issuer
