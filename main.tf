@@ -18,7 +18,7 @@ locals {
 
   license = {
     accept = true
-    license = "L-RJON-BUVMQX"
+    license = "L-RJON-C2YLGB"
     use = "CloudPakForIntegrationNonProduction"
   }
 
